@@ -1,0 +1,19 @@
+FROM Python:3.7.12
+
+# install dependencies
+RUN apt-get update && apt-get -y install apache2
+RUN pip install boto3
+
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+
+ENTRYPOINT ["python"]
+# ENTRYPOINT -> ENTRYPOINT 에서 지정한 명령을 수행하도록 지정됨
+CMD ["app.py"]
+# 컨테이너를 실행할 때 인자값을 주게 되면 dockerfile에 지정된 cmd 값을 대신하여 지정한 인자값으로 변경하여 실행됨
+
+
+RUN echo 'working!' > /var/www/html/index.html
